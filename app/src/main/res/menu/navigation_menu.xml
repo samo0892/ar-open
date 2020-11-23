@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/exhibition"
+        android:title="ARMap"/>
+
+    <item android:id="@+id/artists"
+        android:title="Artists"/>
+
+    <item android:id="@+id/artworks"
+        android:title="Artworks"/>
+
+    <item android:id="@+id/arcamera"
+        android:title="ARCamera"/>
+
+    <item android:id="@+id/about"
+        android:title="About"/>
+
+</menu>

@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "66521704552",
+    "firebase_url": "https://ar-open2018.firebaseio.com",
+    "project_id": "ar-open2018",
+    "storage_bucket": "ar-open2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66521704552:android:d9ddba3fd2d497b6",
+        "android_client_info": {
+          "package_name": "com.example.samo.aropen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66521704552-dn31skhm9srsvdgf5u3pncl63el1th1j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samo.aropen",
+            "certificate_hash": "a50d213ec0ec8d32d8b8724067c11bb7523fa193"
+          }
+        },
+        {
+          "client_id": "66521704552-jcabjt0b1icqkq6isn8ihe4t74f8dtb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3pSdgCjpfLpbzXV3usteuCiKIS2ZYWog"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66521704552-l5d19ktgbrbl28v86sh7hebt005a9iq5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66521704552-ip9np5n1pnhpsik8hardac4ovve6t8m9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Beuth.ARtMapMaster"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66521704552:android:7f15c2a6ea5974a2",
+        "android_client_info": {
+          "package_name": "com.example.samo.com.beuth.aropen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66521704552-rq3vv1bldsuk33e48suu5iaicm07jpd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samo.com.beuth.aropen",
+            "certificate_hash": "a50d213ec0ec8d32d8b8724067c11bb7523fa193"
+          }
+        },
+        {
+          "client_id": "66521704552-jcabjt0b1icqkq6isn8ihe4t74f8dtb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3pSdgCjpfLpbzXV3usteuCiKIS2ZYWog"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66521704552-l5d19ktgbrbl28v86sh7hebt005a9iq5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66521704552-ip9np5n1pnhpsik8hardac4ovve6t8m9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Beuth.ARtMapMaster"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

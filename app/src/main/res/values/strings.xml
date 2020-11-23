@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AR Open</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="google_maps_api_key">AIzaSyD5IXmnDx5mZvN18_Dyx_9qC4w9BLsvGSk</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="Open">drawer open</string>
+    <string name="Close">drawer close</string>
+    <string name="title_activity_base2">Base2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+</resources>
