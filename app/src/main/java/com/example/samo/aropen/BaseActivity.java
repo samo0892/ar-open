@@ -80,13 +80,9 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         mDrawerLayout.openDrawer(nv);
-
-
         if (mToggle.onOptionsItemSelected(item)) {
-            Log.d(TAG, "IS CLICKED: " + item.getItemId());
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

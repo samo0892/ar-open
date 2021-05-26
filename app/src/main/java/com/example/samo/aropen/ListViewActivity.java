@@ -28,14 +28,9 @@ public class ListViewActivity extends BaseActivity {
     private ArrayList<Artist> artistList = new ArrayList<>();
     Intent myIntent;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_list_view);
-        Log.d(TAG, "onCreate: Started.");
         setTitle("Artists");
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,58 +41,44 @@ public class ListViewActivity extends BaseActivity {
 
         myIntent = new Intent(this, DetailsActivity.class);
 
-        //Database Shit
+        //connecting to database to get the artists
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child("artists");
         ArtistListAdapter adapter = new ArtistListAdapter(this, R.layout.adapter_view_layout, artistList);
 
-
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "VALUE IS: " + dataSnapshot.getValue());
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    Log.d(TAG, "KIND: " + child.getValue());
                     String artistId = child.getKey();
 
-
-                    //child = einzelne artisten
-                    //werden in einem Array (key, value prinzip) als obj gespeichert
+                    //child = separate aritsts
+                    //are stored in an array (key, value principle) as obj
                     Map<String, Object> obj =  (Map<String, Object>) child.getValue();
                     String name = (String) obj.get("name");
                     String firstName = (String) obj.get("alpha_name");
                     Artist artist = new Artist(artistId,firstName, name);
-                    Log.i(TAG, "ARTIST IST: " + artist.getId() + "" + artist.getFirstname() + " "+ artist.getLastname());
                     artistList.add(artist);
 
-                    Log.d(TAG, "ADAPTER: " +adapter);
                     ListView artistListView = (ListView) findViewById(R.id.listView);
                     artistListView.setAdapter(adapter);
 
                     artistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
                         @Override
                         public void onItemClick(AdapterView parent, View v, int position, long id) {
-                            Log.d(TAG, "ES KLAPPT");
-
                             Artist list_row = artistList.get(position);
                             Intent detailActivity = new Intent(getApplicationContext(), DetailsActivity.class);
                             detailActivity.putExtra("firstname", list_row.getFirstname());
                             detailActivity.putExtra("id", list_row.getId());
-                            //detailActivity.putExtra("", list_row.);
-
                             startActivity(detailActivity);
                         }
-
                     });
-
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "DATABASE ERROR",databaseError.toException());
+                Log.e(TAG, "DATABASE ERROR: ", databaseError.toException());
             }
         });
 

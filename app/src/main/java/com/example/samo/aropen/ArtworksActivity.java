@@ -37,12 +37,9 @@ public class ArtworksActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_list_view);
-        Log.d(TAG, "onCreate: Started.");
         setTitle("Artworks");
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
         //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_artist_detail, null, false);
@@ -51,11 +48,6 @@ public class ArtworksActivity extends BaseActivity {
         //the stuff to show all the gotten artwork_description in a layout
         ArtworkDescriptionListAdapter adapter = new ArtworkDescriptionListAdapter(this, artworkList);
         myListView = (ListView) findViewById(R.id.descriptionListView);
-
-        //get the intent(value) from ListViewActivity
-        Intent secondIntent = getIntent();
-        String artistId = secondIntent.getStringExtra("id");
-
 
         //connect to the database and to the table "artwork_description"
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -71,24 +63,16 @@ public class ArtworksActivity extends BaseActivity {
                     String description = (String) obj.get("descriptionDE");
                     String title = (String) obj.get("titleDE");
                     String imageUrl = (String) obj.get("image_url");
-                    Log.d(TAG, "IMAGE URL: " + imageUrl);
                     storage.child(imageUrl).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             String pathReference = uri.toString();
-                            Log.d(TAG, "PAAATH: " + pathReference);
                             ArtworkDescription artworkDescription = new ArtworkDescription(description, title, pathReference);
                             artworkList.add(artworkDescription);
                             myListView.setAdapter(adapter);
                         }
                     });
-
-                    Log.d(TAG, " IMAGE_URL: " + imageUrl);
-                    //ArtworkDescription artworkDescription = new ArtworkDescription(description, title, pathReference);
-
-                    //artworkList.add(artworkDescription);
                     myListView.setAdapter(adapter);
-
                 }
             }
 

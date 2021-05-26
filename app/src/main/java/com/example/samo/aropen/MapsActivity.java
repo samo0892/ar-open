@@ -54,7 +54,6 @@ public class MapsActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
@@ -68,8 +67,6 @@ public class MapsActivity extends BaseActivity implements
     private String foundLong = "0";
     private String foundArtworkId;
     private String foundRadius = "0";
-    private LocationManager locationManager;
-    ArrayList<String> filePathList = new ArrayList<String>();
     ArrayList<File> localFiles = new ArrayList<File>();
     boolean userIsInCircle = false;
     ArrayList<Site> sites = new ArrayList<Site>();
@@ -78,8 +75,6 @@ public class MapsActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_maps);
-        Log.d(TAG, "onCreate: Started.");
         setTitle("ArMap");
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -93,8 +88,7 @@ public class MapsActivity extends BaseActivity implements
             checkUserLocationPermission();
         }
 
-        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
+        LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -120,12 +114,10 @@ public class MapsActivity extends BaseActivity implements
             DatabaseReference sitesDatabase = mDatabase.child("sites");
 
             sitesDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Map<Double, Object> obj = (Map<Double, Object>) child.getValue();
-                        Log.d(TAG, "found obj: " + obj);
                         foundLat = (String) obj.get("latitude");
                         foundLong = (String) obj.get("longitude");
                         foundArtworkId = (String) obj.get("artwork");
@@ -152,13 +144,11 @@ public class MapsActivity extends BaseActivity implements
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.d(TAG, "Something got wrong!");
                 }
             });
 
         }
     }
-
 
     public boolean checkUserLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -166,15 +156,12 @@ public class MapsActivity extends BaseActivity implements
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
-
             }
             return false;
-
         } else {
             return true;
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -194,7 +181,6 @@ public class MapsActivity extends BaseActivity implements
         }
     }
 
-
     protected synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -203,9 +189,7 @@ public class MapsActivity extends BaseActivity implements
                 .build();
 
         googleApiClient.connect();
-
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -215,32 +199,14 @@ public class MapsActivity extends BaseActivity implements
                     currentUserLocation.getPosition().longitude, circle.getCenter().latitude,
                     circle.getCenter().longitude, distance);
 
-            Log.d(TAG, "LOG: " + distance[0]);
-            ;
             if (distance[0] > circle.getRadius()) {
-                //Do what you need
-                Log.d(TAG, "USER IS FAR AWAY!!: " + localFiles);
-                if (localFiles != null) {
-                    for (File localFile : localFiles) {
-                        Log.d(TAG, "FILE TO DELETE: " + localFile);
-                    }
-                }
                 localFiles.removeAll(localFiles);
                 userIsInCircle = false;
-                Log.d(TAG, "There are no files: " + localFiles);
-                userIsInCircle = false;
-
 
             } else if (distance[0] < circle.getRadius()) {
-                //Do what you need
-
                 if (!userIsInCircle) {
-                    Log.d(TAG, "USER IS IN CIRCLE!!");
-
                     Intent arcoreActivity = new Intent(this, ArCoreActivity.class);
                     arcoreActivity.putExtra("foundArtworkId", foundArtworkId);
-
-                    Log.d(TAG, "FP: " + foundArtworkId);
 
                     AlertDialog dialog = new AlertDialog.Builder(this)
                             .setTitle("ArCamera")
@@ -256,31 +222,24 @@ public class MapsActivity extends BaseActivity implements
                             startActivity(arcoreActivity);
                         }
                     });
-
                     userIsInCircle = true;
                 }
-
             }
         }
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
 
         currentUserLocation = mMap.addMarker(markerOptions);
         currentUserLocation.setVisible(false);
-
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         if (lastLocation == null) {
             mMap.animateCamera(CameraUpdateFactory.zoomBy(14));
             lastLocation = location;
         }
-
     }
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -291,9 +250,7 @@ public class MapsActivity extends BaseActivity implements
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-
         }
-
     }
 
     @Override
@@ -306,7 +263,6 @@ public class MapsActivity extends BaseActivity implements
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -317,7 +273,6 @@ public class MapsActivity extends BaseActivity implements
 
     private boolean deleteTempFiles(File file) {
         if (file.isDirectory()) {
-            Log.d(TAG, "FILE IS DIRECTORY");
             File[] files = file.listFiles();
             if (files != null) {
                 for (File f : files) {

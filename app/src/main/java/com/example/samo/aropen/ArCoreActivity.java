@@ -66,10 +66,9 @@ public class ArCoreActivity extends BaseActivity {
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return;
         }
-        Log.d("CREATION", "onCreate has been executed!");
         // Enable AR related functionality on ARCore supported devices only.
-
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_arcore, null, false);
         mDrawerLayout.addView(contentView, 0);
@@ -87,22 +86,9 @@ public class ArCoreActivity extends BaseActivity {
             }
         }
 
-        Log.d(TAG, "CREATED FILE: " + localFiles);
-
-
-        // for(File localfile: localFiles){
-
-        //   if (localfile.toString().contains(".gtlf")) {
-
-
-        //Uri path = Uri.fromFile(localfile);
-
         CompletableFuture<ModelRenderable> andy = ModelRenderable.builder()
                 .setSource(this, Uri.parse("CHAHIN_EARTH.sfb"))
                 .build();
-
-        Log.d(TAG, "ANDIIIII: " + andy);
-
 
         CompletableFuture.allOf(andy)
                 .handle(
@@ -112,16 +98,13 @@ public class ArCoreActivity extends BaseActivity {
                                 DemoUtils.displayError(this, "Unable to load renderables", throwable);
                                 return null;
                             }
-
                             try {
                                 andyRenderable = andy.get();
                                 hasFinishedLoading = true;
-                                Log.d(TAG, "FINISHED LOADING");
 
                             } catch (InterruptedException | ExecutionException ex) {
                                 DemoUtils.displayError(this, "Unable to load renderables", ex);
                             }
-
                             return null;
                         });
 
@@ -143,10 +126,8 @@ public class ArCoreActivity extends BaseActivity {
                                         getModelObject()
                                 );
 
-
                                 // Adding the marker
                                 locationScene.mLocationMarkers.add(layoutLocationMarker);
-
                             }
 
                             Frame frame = arSceneView.getArFrame();
@@ -161,12 +142,9 @@ public class ArCoreActivity extends BaseActivity {
                             if (locationScene != null) {
                                 locationScene.processFrame(frame);
                             }
-
                         });
 
         ARLocationPermissionHelper.requestPermission(this);
-        //   }
-        //    }
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
@@ -236,7 +214,6 @@ public class ArCoreActivity extends BaseActivity {
             finish();
             return;
         }
-
     }
 
     /**
@@ -249,7 +226,6 @@ public class ArCoreActivity extends BaseActivity {
         if (locationScene != null) {
             locationScene.pause();
         }
-
         arSceneView.pause();
     }
 
@@ -307,13 +283,10 @@ public class ArCoreActivity extends BaseActivity {
         artworkDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Artworks are: " + dataSnapshot.getValue());
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "KIND: " + child);
                     Map<String, Object> obj = (Map<String, Object>) child.getValue();
                     String foundArtwork = child.getKey();
                     if (foundArtwork.equals(foundArtworkId)) {
-                        Log.d(TAG, "ARTWORK WURDE GEFUNDEN!: " + foundArtwork);
                         filename = (String) obj.get("titleDE");
                         if (!filePathList.contains((String) obj.get("bin_file"))) {
                             if (!((String) obj.get("bin_file")).isEmpty()) {
@@ -322,26 +295,19 @@ public class ArCoreActivity extends BaseActivity {
                         }
                         if (!filePathList.contains((String) obj.get("model"))) {
                             if (!((String) obj.get("model")).isEmpty()) {
-                                Log.d(TAG, "OBJ: " + obj.get("model"));
                                 filePathList.add((String) obj.get("model"));
                             }
                         }
                         if (!filePathList.contains((String) obj.get("texture_file"))) {
                             if (!((String) obj.get("texture_file")).isEmpty()) {
                                 filePathList.add((String) obj.get("texture_file"));
-
                             }
                         }
                     }
-
-
-                    Log.d(TAG, "ARRAY: " + filePathList);
-
                 }
 
 
                 for (String filepath : filePathList) {
-                    Log.d(TAG, "FILEPATH IS: " + filepath);
                     storageRef.child(filepath).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -350,23 +316,13 @@ public class ArCoreActivity extends BaseActivity {
                         }
                     });
 
-                    Log.d(TAG, "FILE: " + filepath);
                     if (filepath.contains(".bin")) {
                         localFiles.add(new File(getCacheDir(), filename + ".bin"));
-                        Log.d(TAG, "LOCALFILE: " + localFiles);
                     } else if (filepath.contains(".gltf")) {
                         localFiles.add(new File(getCacheDir(), filename + ".gltf"));
-
-                        Log.d(TAG, "LOCALFILE: " + localFiles);
                     } else if (filepath.contains(".jpg")) {
                         localFiles.add(new File(getCacheDir(), filename + ".jpg"));
-                        Log.d(TAG, "LOCALFILE: " + localFiles);
-
                     }
-
-
-                    Log.d(TAG, "CREATED FILE: " + localFiles);
-
 
                     for (File localfile : localFiles) {
                         storageRef.child(filepath).getFile(localfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -379,26 +335,19 @@ public class ArCoreActivity extends BaseActivity {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 // Handle any errors
-                                Log.d(TAG, "Handle any errors");
+                                Log.e(TAG, exception.getMessage());
                             }
                         });
-
                     }
                 }
-
                 userIsInCircle = true;
                 return;
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-
     }
-
 }
-
